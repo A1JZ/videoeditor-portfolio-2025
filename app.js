@@ -15,12 +15,45 @@ window.addEventListener('scroll', function(){ if(window.scrollY >= 10) { header.
 
 const navToggleBtn = document.querySelector('[data-nav-toggle-btn]');
 const navbar = document.querySelector('[data-navbar]');
+const navOverlay = document.querySelector('[data-nav-overlay]');
+const navLinks = navbar ? navbar.querySelectorAll('.header-nav-link') : [];
 
-navToggleBtn.addEventListener('click', function() { 
-    elemToggleFunc(navToggleBtn);
-    elemToggleFunc(navbar);
-    elemToggleFunc(document.body);
-})
+const closeMobileMenu = () => {
+    navToggleBtn.classList.remove('active');
+    if (navbar) { navbar.classList.remove('active'); }
+    document.body.classList.remove('active');
+    if (navOverlay) { navOverlay.classList.remove('active'); }
+};
+
+navToggleBtn.addEventListener('click', function() {
+    const isOpen = navToggleBtn.classList.toggle('active');
+
+    if (navbar) { navbar.classList.toggle('active', isOpen); }
+    document.body.classList.toggle('active', isOpen);
+    if (navOverlay) { navOverlay.classList.toggle('active', isOpen); }
+});
+
+if (navLinks.length) {
+    navLinks.forEach((link) => {
+        link.addEventListener('click', closeMobileMenu);
+    });
+}
+
+if (navOverlay) {
+    navOverlay.addEventListener('click', closeMobileMenu);
+}
+
+window.addEventListener('resize', () => {
+    if (window.innerWidth >= 992 && navToggleBtn.classList.contains('active')) {
+        closeMobileMenu();
+    }
+});
+
+window.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && navToggleBtn.classList.contains('active')) {
+        closeMobileMenu();
+    }
+});
 
 // Skills Toggling Button
 
@@ -28,13 +61,49 @@ const toggleBtnBox = document.querySelector('[data-toggle-box]');
 const toggleBtns = document.querySelectorAll('[data-toggle-btn]');
 const skillsBox = document.querySelector('[data-skills-box]');
 
-for(let i = 0; i < toggleBtns.length; i++){
-    toggleBtns[i].addEventListener('click', function(){
-        elemToggleFunc(toggleBtnBox);
+const updateToggleHighlight = () => {
+    if (!toggleBtnBox || !toggleBtns.length) { return; }
 
-        for(let i = 0; i < toggleBtns.length; i++) { elemToggleFunc(toggleBtns[i]); }
-        elemToggleFunc(skillsBox);
+    const activeBtn = toggleBtnBox.querySelector('.toggle-btn.active') || toggleBtns[0];
+
+    if (!activeBtn) { return; }
+
+    const boxRect = toggleBtnBox.getBoundingClientRect();
+    const activeRect = activeBtn.getBoundingClientRect();
+    const left = Math.max(0, activeRect.left - boxRect.left - 5);
+
+    toggleBtnBox.style.setProperty('--toggle-active-left', `${left}px`);
+    toggleBtnBox.style.setProperty('--toggle-active-width', `${activeRect.width}px`);
+};
+
+const setActiveToggle = (activeIndex) => {
+    if (!toggleBtnBox || !toggleBtns.length) { return; }
+
+    toggleBtns.forEach((btn, index) => {
+        btn.classList.toggle('active', index === activeIndex);
     });
+
+    if (skillsBox) {
+        skillsBox.classList.toggle('active', activeIndex === 1);
+    }
+
+    window.requestAnimationFrame(updateToggleHighlight);
+};
+
+if (toggleBtns.length) {
+    toggleBtns.forEach((btn, index) => {
+        btn.addEventListener('click', function(){
+            if (btn.classList.contains('active')) { return; }
+
+            setActiveToggle(index);
+        });
+    });
+
+    const initialActiveIndex = Array.from(toggleBtns).findIndex((btn) => btn.classList.contains('active'));
+    setActiveToggle(initialActiveIndex > -1 ? initialActiveIndex : 0);
+
+    window.addEventListener('resize', () => window.requestAnimationFrame(updateToggleHighlight));
+    window.addEventListener('load', () => window.requestAnimationFrame(updateToggleHighlight));
 }
 
 
@@ -101,6 +170,168 @@ if(localStorage.getItem('theme') === 'light-theme'){
     document.body.classList.remove('light-theme');
     document.body.classList.add('dark-theme');
 }
+const safeCreateUrl = (input) => {
+  if (!input) { return null; }
+
+  try {
+    return new URL(input);
+  } catch {
+    try {
+      return new URL(`https://${input}`);
+    } catch {
+      return null;
+    }
+  }
+};
+
+const parseYouTubeTimestamp = (value) => {
+  if (!value) { return 0; }
+  if (/^\d+$/.test(value)) {
+    return Number(value);
+  }
+
+  const match = value.match(/(?:(\d+)h)?(?:(\d+)m)?(?:(\d+)s)?/i);
+  if (!match) { return 0; }
+
+  const [, hours, minutes, seconds] = match;
+  const h = Number(hours ?? 0);
+  const m = Number(minutes ?? 0);
+  const s = Number(seconds ?? 0);
+
+  return (h * 3600) + (m * 60) + s;
+};
+
+const extractYouTubeId = (input) => {
+  if (!input) { return ''; }
+
+  const candidate = input.trim();
+  if (!candidate) { return ''; }
+
+  if (/^[A-Za-z0-9_-]{11}$/.test(candidate)) {
+    return candidate;
+  }
+
+  const patterns = [
+    /youtu\.be\/([A-Za-z0-9_-]{11})/i,
+    /youtube\.com\/shorts\/([A-Za-z0-9_-]{11})/i,
+    /youtube\.com\/live\/([A-Za-z0-9_-]{11})/i,
+    /youtube\.com\/embed\/([A-Za-z0-9_-]{11})/i,
+    /youtube\.com\/.*?[?&]v=([A-Za-z0-9_-]{11})/i
+  ];
+
+  for (const pattern of patterns) {
+    const match = candidate.match(pattern);
+    if (match && match[1]) {
+      return match[1];
+    }
+  }
+
+  return '';
+};
+
+const buildYouTubeEmbedUrl = (input) => {
+  const videoId = extractYouTubeId(input);
+  if (!videoId) {
+    return '';
+  }
+
+  const params = new URLSearchParams({ rel: '0', modestbranding: '1' });
+  const url = safeCreateUrl(input);
+  const startValue = url ? parseYouTubeTimestamp(url.searchParams.get('start') ?? url.searchParams.get('t')) : 0;
+
+  if (startValue > 0) {
+    params.set('start', String(startValue));
+  }
+
+  return `https://www.youtube.com/embed/${videoId}?${params.toString()}`;
+};
+
+const getVideoFrameTitle = (frame) => {
+  if (!frame) { return 'YouTube video player'; }
+
+  const explicit = frame.dataset.videoTitle?.trim();
+  if (explicit) { return explicit; }
+
+  const titleElement = frame.closest('.project-card')?.querySelector('.card-title');
+  const fallbackTitle = titleElement?.textContent?.trim();
+
+  return fallbackTitle || 'YouTube video player';
+};
+
+const updateVideoFramePlaceholderState = (frame) => {
+  const placeholder = frame?.querySelector('.video-frame-placeholder');
+  if (!placeholder) { return; }
+
+  placeholder.hidden = frame.dataset.ready === 'true';
+};
+
+const setupVideoFrame = (frame) => {
+  if (!frame) { return; }
+
+  const poster = frame.dataset.poster?.trim();
+  if (poster) {
+    frame.style.setProperty('--video-poster', `url("${poster}")`);
+  } else {
+    frame.style.removeProperty('--video-poster');
+  }
+
+  const rawUrl = frame.dataset.videoUrl?.trim() ?? '';
+  const existingIframe = frame.querySelector('iframe');
+
+  if (!rawUrl) {
+    if (existingIframe) {
+      existingIframe.remove();
+    }
+    frame.dataset.ready = 'false';
+    updateVideoFramePlaceholderState(frame);
+    return;
+  }
+
+  const embedUrl = buildYouTubeEmbedUrl(rawUrl);
+  if (!embedUrl) {
+    if (existingIframe) {
+      existingIframe.remove();
+    }
+    frame.dataset.ready = 'invalid';
+    updateVideoFramePlaceholderState(frame);
+    return;
+  }
+
+  let iframe = existingIframe;
+  if (!iframe) {
+    iframe = document.createElement('iframe');
+    iframe.className = 'video-frame-embed';
+    iframe.loading = 'lazy';
+    iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+    iframe.allowFullscreen = true;
+    iframe.referrerPolicy = 'strict-origin-when-cross-origin';
+    frame.appendChild(iframe);
+  }
+
+  iframe.src = embedUrl;
+  iframe.title = getVideoFrameTitle(frame);
+
+  frame.dataset.ready = 'true';
+  updateVideoFramePlaceholderState(frame);
+};
+
+const refreshVideoFrameTitles = () => {
+  document.querySelectorAll('.video-frame iframe').forEach((iframe) => {
+    const frame = iframe.closest('.video-frame');
+    if (!frame) { return; }
+
+    iframe.title = getVideoFrameTitle(frame);
+  });
+};
+
+const initVideoFrames = () => {
+  const frames = document.querySelectorAll('.video-frame');
+  if (!frames.length) { return; }
+
+  frames.forEach(setupVideoFrame);
+  refreshVideoFrameTitles();
+};
+
 // Language Switcher
 const translations = {
   en: {
@@ -140,7 +371,7 @@ const translations = {
     'projects.card.talking3': 'Talking Head #3',
     'projects.card.talking4': 'Talking Head #4',
     'projects.card.vlogSpain': 'Vlog Spain',
-    'projects.card.entertainmentVlog': 'Entertainment vlog',
+    'projects.card.firstShowreel': 'First Showreel',
     'projects.card.reel1': 'Reels from long video 1',
     'projects.card.reel2': 'Reels from long video 2',
     'projects.card.reel3': 'Reels from long video 3',
@@ -166,7 +397,7 @@ const translations = {
     'testimonials.3.quote': 'Wow, the edit is fire! Captured the mood perfectly.',
     'footer.copyright': '&copy; 2025 All rights reserved',
     'footer.goTop': 'Go to Top',
-    'video.fallback': 'Your browser does not support the video tag.'
+    'video.fallback': 'Add your YouTube link to the data-video-url attribute to display the video.'
   },
   ru: {
     'meta.title': 'Алексей — портфолио видеомонтажёра',
@@ -202,7 +433,7 @@ const translations = {
     'projects.card.talking3': 'Интервью #3',
     'projects.card.talking4': 'Интервью #4',
     'projects.card.vlogSpain': 'Влог: Испания',
-    'projects.card.entertainmentVlog': 'Развлекательный влог',
+    'projects.card.firstShowreel': 'Первый шоу-рил',
     'projects.card.reel1': 'Рилс из длинного видео 1',
     'projects.card.reel2': 'Рилс из длинного видео 2',
     'projects.card.reel3': 'Рилс из длинного видео 3',
@@ -228,7 +459,7 @@ const translations = {
     'testimonials.3.quote': 'Вау, это очень классно! У нас поднялись просмотры и вовлечённость.',
     'footer.copyright': '&copy; 2025 Все права защищены',
     'footer.goTop': 'Наверх',
-    'video.fallback': 'Ваш браузер не поддерживает воспроизведение видео.'
+    'video.fallback': '�������� ������ �� YouTube � ������� data-video-url, ����� �������� �����.'
   }
 };
 
@@ -264,17 +495,20 @@ const applyTranslations = (lang) => {
     }
   });
 
-  const videoCopy = dictionary['video.fallback'] ?? fallbackDictionary['video.fallback'];
-  if (videoCopy) {
-    document.querySelectorAll('video').forEach((video) => {
-      video.textContent = videoCopy;
-    });
+  refreshVideoFrameTitles();
+  document.querySelectorAll('.video-frame').forEach(updateVideoFramePlaceholderState);
+
+  if (typeof requestAnimationFrame === 'function') {
+    requestAnimationFrame(updateToggleHighlight);
+  } else {
+    updateToggleHighlight();
   }
 };
 
 const storedLanguage = localStorage.getItem('language');
 const initialLanguage = translations[storedLanguage] ? storedLanguage : fallbackLanguage;
 
+initVideoFrames();
 applyTranslations(initialLanguage);
 
 if (languageSelect) {
@@ -285,3 +519,8 @@ if (languageSelect) {
     localStorage.setItem('language', nextLanguage);
   });
 }
+
+
+
+
+

@@ -19,33 +19,38 @@
                 <span class="two"></span>
                 <span class="three"></span>
             </button>
-            <nav class="header-nav navbar" data-navbar>
-                <ul class="header-nav-list">
-                    <li class="header-nav-item">
-                        <a href="#home" class="header-nav-link" data-i18n="nav.home">Home</a>
-                    </li>
-                    <li class="header-nav-item">
-                        <a href="#about" class="header-nav-link" data-i18n="nav.about">About Me</a>
-                    </li>
-                    <li class="header-nav-item">
-                        <a href="#skills" class="header-nav-link" data-i18n="nav.skills">Skills</a>
-                    </li>
-                    <li class="header-nav-item">
-                        <a href="#portfolio" class="header-nav-link" data-i18n="nav.portfolio">Portfolio</a>
-                    </li>
-                    <li class="header-nav-item">
-                        <a href="#contact" class="header-nav-link" data-i18n="nav.contact">Contact</a>
-                    </li>
-                </ul>
-            </nav>
-            <div class="lang-selector navbar-actions">
-                <select name="language" id="lang">
-                    <option value="en" data-i18n="lang.en">English</option>
-                    <option value="ru" data-i18n="lang.ru">Русский</option>
-                </select>
-                <button class="theme-btn" aria-label="Change Theme" title="Change Theme" data-theme-btn data-i18n="theme.toggle" data-i18n-attr="aria-label,title" data-i18n-no-text><span class="icon"></span></button>
+            <div class="header-menu" data-navbar>
+                <nav class="header-nav">
+                    <ul class="header-nav-list">
+                        <li class="header-nav-item">
+                            <a href="#home" class="header-nav-link" data-i18n="nav.home">Home</a>
+                        </li>
+                        <li class="header-nav-item">
+                            <a href="#about" class="header-nav-link" data-i18n="nav.about">About Me</a>
+                        </li>
+                        <li class="header-nav-item">
+                            <a href="#skills" class="header-nav-link" data-i18n="nav.skills">Skills</a>
+                        </li>
+                        <li class="header-nav-item">
+                            <a href="#portfolio" class="header-nav-link" data-i18n="nav.portfolio">Portfolio</a>
+                        </li>
+                        <li class="header-nav-item">
+                            <a href="#contact" class="header-nav-link" data-i18n="nav.contact">Contact</a>
+                        </li>
+                    </ul>
+                </nav>
+                <div class="header-menu-footer">
+                    <div class="lang-selector">
+                        <select name="language" id="lang">
+                            <option value="en" data-i18n="lang.en">English</option>
+                            <option value="ru" data-i18n="lang.ru">�������</option>
+                        </select>
+                        <button class="theme-btn" aria-label="Change Theme" title="Change Theme" data-theme-btn data-i18n="theme.toggle" data-i18n-attr="aria-label,title" data-i18n-no-text><span class="icon"></span></button>
+                    </div>
+                </div>
             </div>
         </div>
+        <div class="header-overlay" data-nav-overlay></div>
     </header>
     <main>
         <article class="container">
@@ -221,16 +226,33 @@
                         </div>
                     </div>
                 </li>
+                                <li class="project-item" data-filter-item data-category="long">
+                    <div class="project-card">
+                        <figure class="card-banner">
+                            <div class="video-frame"
+                                data-video-url="https://youtu.be/uuP4s4bjKXE"
+                                data-poster="./_web/Даник-YT.jpg">
+                                <div class="video-frame-placeholder" data-i18n="video.fallback">
+                                    Add a YouTube link to the data-video-url attribute.
+                                </div>
+                            </div>
+                        </figure>
+                        <div class="card-content">
+                                <h3 class="h4 card-title" data-i18n="projects.card.firstShowreel">First Showreel</h3>
+                                <time class="publish-date" datetime="2024-06" data-i18n="dates.june2024">June 2024</time>
+                        </div>
+                    </div>
+                </li>
                 <li class="project-item" data-filter-item data-category="long">
                     <div class="project-card">
                         <figure class="card-banner">
-                            <video src="./_web/Dev-Profit5.mp4" class="card-video"
-                                controls
-                                preload="metadata"
-                                playsinline
-                                poster="./_web/Dev-Profit-5.jpg">
-                                Your browser does not support the video tag.
-                            </video>
+                            <div class="video-frame"
+                                data-video-url="https://youtu.be/vKUEGpY8rOI"
+                                data-poster="./_web/Dev-Profit-5.jpg">
+                                <div class="video-frame-placeholder" data-i18n="video.fallback">
+                                    Add a YouTube link to the data-video-url attribute.
+                                </div>
+                            </div>
                         </figure>
                         <div class="card-content">
                                 <h3 class="h4 card-title" data-i18n="projects.card.talking1">Talking Head #1</h3>
@@ -242,13 +264,13 @@
                 <li class="project-item" data-filter-item data-category="long">
                     <div class="project-card">
                         <figure class="card-banner">
-                            <video src="./_web/Joyce_promo_1306.mp4" class="card-video"
-                                controls
-                                preload="metadata"
-                                playsinline
-                                poster="./_web/Joyce_promo_1306.jpg">
-                                Your browser does not support the video tag.
-                            </video>
+                            <div class="video-frame"
+                                data-video-url="https://youtu.be/Y6DiWUbvwP8"
+                                data-poster="./_web/Joyce_promo_1306.jpg">
+                                <div class="video-frame-placeholder" data-i18n="video.fallback">
+                                    Add a YouTube link to the data-video-url attribute.
+                                </div>
+                            </div>
                         </figure>
                         <div class="card-content">
                                 <h3 class="h4 card-title" data-i18n="projects.card.talking2">Talking Head #2 - Spain</h3>
@@ -260,13 +282,13 @@
                 <li class="project-item" data-filter-item data-category="long">
                     <div class="project-card">
                         <figure class="card-banner">
-                            <video src="./_web/Ver2-2.mp4" class="card-video"
-                                controls
-                                preload="metadata"
-                                playsinline
-                                poster="./_web/Ver2-2.jpg">
-                                Your browser does not support the video tag.
-                            </video>
+                            <div class="video-frame"
+                                data-video-url="https://youtu.be/UcV-okvjr7U"
+                                data-poster="./_web/Ver2-2.jpg">
+                                <div class="video-frame-placeholder" data-i18n="video.fallback">
+                                    Add a YouTube link to the data-video-url attribute.
+                                </div>
+                            </div>
                         </figure>
                         <div class="card-content">
                                 <h3 class="h4 card-title" data-i18n="projects.card.talking3">Talking Head #3</h3>
@@ -278,13 +300,13 @@
                 <li class="project-item" data-filter-item data-category="long">
                     <div class="project-card">
                         <figure class="card-banner">
-                            <video src="./_web/Video2-4.mp4" class="card-video"
-                                controls
-                                preload="metadata"
-                                playsinline
-                                poster="./_web/Video2-4.jpg">
-                                Your browser does not support the video tag.
-                            </video>
+                            <div class="video-frame"
+                                data-video-url="https://youtu.be/1ER4qJZVVno"
+                                data-poster="./_web/Video2-4.jpg">
+                                <div class="video-frame-placeholder" data-i18n="video.fallback">
+                                    Add a YouTube link to the data-video-url attribute.
+                                </div>
+                            </div>
                         </figure>
                         <div class="card-content">
                                 <h3 class="h4 card-title" data-i18n="projects.card.talking4">Talking Head #4</h3>
@@ -296,13 +318,13 @@
                 <li class="project-item" data-filter-item data-category="long">
                     <div class="project-card">
                         <figure class="card-banner">
-                            <video src="./_web/VLOG-spain.mp4" class="card-video"
-                                controls
-                                preload="metadata"
-                                playsinline
-                                poster="./_web/VLOG-spain.jpg">
-                                Your browser does not support the video tag.
-                            </video>
+                            <div class="video-frame"
+                                data-video-url="https://youtu.be/laiSLLSoFt0"
+                                data-poster="./_web/VLOG-spain.jpg">
+                                <div class="video-frame-placeholder" data-i18n="video.fallback">
+                                    Add a YouTube link to the data-video-url attribute.
+                                </div>
+                            </div>
                         </figure>
                         <div class="card-content">
                                 <h3 class="h4 card-title" data-i18n="projects.card.vlogSpain">Vlog Spain</h3>
@@ -311,34 +333,16 @@
                     </div>
                 </li>
 
-                <li class="project-item" data-filter-item data-category="long">
-                    <div class="project-card">
-                        <figure class="card-banner">
-                            <video src="./_web/Даник-YT.mp4" class="card-video"
-                                controls
-                                preload="metadata"
-                                playsinline
-                                poster="./_web/Даник-YT.jpg">
-                                Your browser does not support the video tag.
-                            </video>
-                        </figure>
-                        <div class="card-content">
-                                <h3 class="h4 card-title" data-i18n="projects.card.entertainmentVlog">Entertainment vlog</h3>
-                                <time class="publish-date" datetime="2024-06" data-i18n="dates.june2024">June 2024</time>
-                        </div>
-                    </div>
-                </li>
-
                 <li class="project-item" data-filter-item data-category="short">
                     <div class="project-card">
                         <figure class="card-banner">
-                            <video src="./_web/Reels-1.mp4" class="card-video"
-                                controls
-                                preload="metadata"
-                                playsinline
-                                poster="./_web/Reels-1.jpg">
-                                Your browser does not support the video tag.
-                            </video>
+                            <div class="video-frame"
+                                data-video-url="https://youtube.com/shorts/m8H_RhwgsvY?feature=share"
+                                data-poster="./_web/Reels-1.jpg">
+                                <div class="video-frame-placeholder" data-i18n="video.fallback">
+                                    Add a YouTube link to the data-video-url attribute.
+                                </div>
+                            </div>
                         </figure>
                         <div class="card-content">
                                 <h3 class="h4 card-title" data-i18n="projects.card.reel1">Reels from long video 1</h3>
@@ -350,13 +354,13 @@
                 <li class="project-item" data-filter-item data-category="short">
                     <div class="project-card">
                         <figure class="card-banner">
-                            <video src="./_web/Shorts 6.mp4" class="card-video"
-                                controls
-                                preload="metadata"
-                                playsinline
-                                poster="./_web/Shorts 6.jpg">
-                                Your browser does not support the video tag.
-                            </video>
+                            <div class="video-frame"
+                                data-video-url="https://youtube.com/shorts/xR812pC6vu4?feature=share"
+                                data-poster="./_web/Shorts 6.jpg">
+                                <div class="video-frame-placeholder" data-i18n="video.fallback">
+                                    Add a YouTube link to the data-video-url attribute.
+                                </div>
+                            </div>
                         </figure>
                         <div class="card-content">
                                 <h3 class="h4 card-title" data-i18n="projects.card.reel2">Reels from long video 2</h3>
@@ -368,13 +372,13 @@
                 <li class="project-item" data-filter-item data-category="short">
                     <div class="project-card">
                         <figure class="card-banner">
-                            <video src="./_web/Shorts-9.mp4" class="card-video"
-                                controls
-                                preload="metadata"
-                                playsinline
-                                poster="./_web/Shorts-9.jpg">
-                                Your browser does not support the video tag.
-                            </video>
+                            <div class="video-frame"
+                                data-video-url="https://youtube.com/shorts/5DbgM0VH_PY?feature=share"
+                                data-poster="./_web/Shorts-9.jpg">
+                                <div class="video-frame-placeholder" data-i18n="video.fallback">
+                                    Add a YouTube link to the data-video-url attribute.
+                                </div>
+                            </div>
                         </figure>
                         <div class="card-content">
                                 <h3 class="h4 card-title" data-i18n="projects.card.reel3">Reels from long video 3</h3>
@@ -386,13 +390,13 @@
                 <li class="project-item" data-filter-item data-category="short">
                     <div class="project-card">
                         <figure class="card-banner">
-                            <video src="./_web/Shorts-12.mp4" class="card-video"
-                                controls
-                                preload="metadata"
-                                playsinline
-                                poster="./_web/Shorts-12.jpg">
-                                Your browser does not support the video tag.
-                            </video>
+                            <div class="video-frame"
+                                data-video-url="https://youtube.com/shorts/PWZQIEh_6-E?feature=share"
+                                data-poster="./_web/Shorts-12.jpg">
+                                <div class="video-frame-placeholder" data-i18n="video.fallback">
+                                    Add a YouTube link to the data-video-url attribute.
+                                </div>
+                            </div>
                         </figure>
                         <div class="card-content">
                                 <h3 class="h4 card-title" data-i18n="projects.card.reel4">Reels from long video 4</h3>
@@ -404,13 +408,13 @@
                 <li class="project-item" data-filter-item data-category="short">
                     <div class="project-card">
                         <figure class="card-banner">
-                            <video src="./_web/Shorts-15.mp4" class="card-video"
-                                controls
-                                preload="metadata"
-                                playsinline
-                                poster="./_web/Shorts-15.jpg">
-                                Your browser does not support the video tag.
-                            </video>
+                            <div class="video-frame"
+                                data-video-url="https://youtube.com/shorts/5RCKyXX3F8c?feature=share"
+                                data-poster="./_web/Shorts-15.jpg">
+                                <div class="video-frame-placeholder" data-i18n="video.fallback">
+                                    Add a YouTube link to the data-video-url attribute.
+                                </div>
+                            </div>
                         </figure>
                         <div class="card-content">
                                 <h3 class="h4 card-title" data-i18n="projects.card.reel5">Reels from long video 5</h3>
@@ -422,13 +426,13 @@
                 <li class="project-item" data-filter-item data-category="short">
                     <div class="project-card">
                         <figure class="card-banner">
-                            <video src="./_web/Shorts-16.mp4" class="card-video"
-                                controls
-                                preload="metadata"
-                                playsinline
-                                poster="./_web/Shorts-16.jpg">
-                                Your browser does not support the video tag.
-                            </video>
+                            <div class="video-frame"
+                                data-video-url="https://youtube.com/shorts/pZcsAIwAY0I?feature=share"
+                                data-poster="./_web/Shorts-16.jpg">
+                                <div class="video-frame-placeholder" data-i18n="video.fallback">
+                                    Add a YouTube link to the data-video-url attribute.
+                                </div>
+                            </div>
                         </figure>
                         <div class="card-content">
                                 <h3 class="h4 card-title" data-i18n="projects.card.reel6">Reels from long video 6</h3>
@@ -548,6 +552,10 @@
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 </body>
 </html>
+
+
+
+
 
 
 
