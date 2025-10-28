@@ -234,7 +234,7 @@ svg * {
     --fw-400: 400;
     --fw-700: 700;
 
-    --transition-1: 0.25s ease-in-out;
+    --transition-1: 0.18s ease-in-out;
 
     --section-padding: 80px;
 
@@ -691,21 +691,46 @@ a {
 }
 
 .hero-banner {
-  height: 100%;
+  width: 100%;
+  max-width: min(90vw, 60rem);
   display: flex;
-  align-items: flex-end;
-  max-width: min(720px, 55vw);
+  align-items: center;
+  justify-content: center;
+  margin-inline: auto;
 }
 
 .hero-banner img {
   width: 100%;
-  height: 100%;
-  object-fit: cover;
+  height: auto;
+  max-height: 100%;
+  object-fit: contain;
+  transition: opacity var(--transition-1), transform var(--transition-1);
+}
+
+@keyframes heroBannerFade {
+  from {
+    opacity: 0;
+    transform: scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+body.dark-theme .hero-banner img {
+  content: url("./images/hero-banner-4na5-glow-dark.png");
+  animation: heroBannerFade var(--transition-1);
+}
+
+body.light-theme .hero-banner img {
+  content: url("./images/hero-banner-4na5-glow-light.png");
+  animation: heroBannerFade var(--transition-1);
 }
 
 .hero-content {
   position: absolute;
-  bottom: clamp(3rem, 18vh, 12rem);
+  bottom: clamp(2rem, 14vh, 10rem);
   left: 50%;
   transform: translateX(-50%);
   display: flex;
@@ -1284,10 +1309,10 @@ a {
         display: none;
     }
 
-    .hero { position: relative; padding-top: 0; height: 100vh; }
-    .hero-banner { max-width: unset; height: 100%; margin-bottom: 0; }
-        .hero img { height: 100%; width: auto; margin-inline: auto; }
-    .hero-content { --color-primary: var(--white); position: absolute; top: 50%; filter: drop-shadow(2px 4px 10px var(--black)); }
+    .hero { position: relative; padding-top: 0; min-height: 100vh; }
+    .hero-banner { max-width: min(62vw, 60rem); height: auto; margin-bottom: 0; }
+        .hero-banner img { width: 100%; height: auto; margin-inline: auto; }
+    .hero-content { --color-primary: var(--white); position: absolute; bottom: auto; top: 56%; transform: translate(-50%, 0); filter: drop-shadow(2px 4px 10px var(--black)); }
         .hero .btn-primary:is(:hover, :focus) { color: hsl(0, 0%, 12%); }
     .hero-social-list { display: block; position: absolute; bottom: 92px; left: -30px; }
         .hero-social-list::after { content: ''; position: absolute; bottom: -40px; left: 13px; width: 2px; height: 30px; background: var(--color-secondary); }
