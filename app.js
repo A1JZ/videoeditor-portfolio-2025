@@ -142,34 +142,46 @@ if (filterBtns.length && filterItems.length) {
 // Dark & Light Theme Toggle
 
 const themeToggleBtn = document.querySelector('[data-theme-btn]');
+const aboutBanner = document.querySelector('[data-about-banner]');
+const aboutBannerImage = aboutBanner ? aboutBanner.querySelector('[data-about-banner-image]') : null;
 
-themeToggleBtn.addEventListener('click', function(){
-    elemToggleFunc(themeToggleBtn);
+const applyTheme = (theme) => {
+    const isLight = theme === 'light-theme';
 
-    if(themeToggleBtn.classList.contains('active')){
-        document.body.classList.remove('dark-theme');
-        document.body.classList.add('light-theme');
+    document.body.classList.toggle('light-theme', isLight);
+    document.body.classList.toggle('dark-theme', !isLight);
 
-        localStorage.setItem('theme', 'light-theme');
-    }else{
-        document.body.classList.add('dark-theme');
-        document.body.classList.remove('light-theme');
-
-        localStorage.setItem('theme', 'dark-theme');
+    if (themeToggleBtn) {
+        themeToggleBtn.classList.toggle('active', isLight);
     }
-})
 
-//Applying Theme kept in Local Storage 
+    if (aboutBanner) {
+        aboutBanner.classList.remove('about-banner-glow-dark', 'about-banner-glow-white');
+        aboutBanner.classList.add(isLight ? 'about-banner-glow-white' : 'about-banner-glow-dark');
 
-if(localStorage.getItem('theme') === 'light-theme'){
-    themeToggleBtn.classList.add('active');
-    document.body.classList.remove('dark-theme');
-    document.body.classList.add('light-theme');
-}else{
-    themeToggleBtn.classList.remove('active');
-    document.body.classList.remove('light-theme');
-    document.body.classList.add('dark-theme');
+        if (aboutBannerImage) {
+            const nextSrc = isLight
+                ? './images/about-banner-glow-white.png'
+                : './images/about-banner-glow-dark.png';
+
+            if (aboutBannerImage.getAttribute('src') !== nextSrc) {
+                aboutBannerImage.setAttribute('src', nextSrc);
+            }
+        }
+    }
+
+    localStorage.setItem('theme', theme);
+};
+
+if (themeToggleBtn) {
+    themeToggleBtn.addEventListener('click', () => {
+        const nextTheme = document.body.classList.contains('dark-theme') ? 'light-theme' : 'dark-theme';
+        applyTheme(nextTheme);
+    });
 }
+
+const storedTheme = localStorage.getItem('theme');
+applyTheme(storedTheme === 'light-theme' ? 'light-theme' : 'dark-theme');
 const safeCreateUrl = (input) => {
   if (!input) { return null; }
 
@@ -519,8 +531,5 @@ if (languageSelect) {
     localStorage.setItem('language', nextLanguage);
   });
 }
-
-
-
 
 
