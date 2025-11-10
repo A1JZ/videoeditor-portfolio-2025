@@ -1,4 +1,4 @@
-'use strict';
+﻿'use strict';
 
 //Toggle Function
 
@@ -390,12 +390,18 @@ const translations = {
     'projects.card.reel4': 'Reels from long video 4',
     'projects.card.reel5': 'Reels from long video 5',
     'projects.card.reel6': 'Reels from long video 6',
+    'projects.card.promoShort1': 'Promo Short 1',
+    'projects.card.promoShort2': 'Promo Short 2',
+    'projects.card.promoShort3': 'Promo Short 3',
     'dates.july2025': 'July 2025',
     'dates.december2024': 'December 2024',
     'dates.march2024': 'March 2024',
     'dates.june2024': 'June 2024',
     'dates.may2025': 'May 2025',
     'dates.june2025': 'June 2025',
+    'dates.october2025': 'October 2025',
+    'dates.september2025': 'September 2025',
+    'dates.august2025': 'August 2025',
     'contact.subtitle': 'Get in Touch',
     'contact.title': 'Have you any project?<br>Drop a message!',
     'contact.text': 'Contact me and let me know if I can help! Message me on social media or email me, and I\'ll get back to you as soon as possible.',
@@ -452,12 +458,18 @@ const translations = {
     'projects.card.reel4': 'Рилс из длинного видео 4',
     'projects.card.reel5': 'Рилс из длинного видео 5',
     'projects.card.reel6': 'Рилс из длинного видео 6',
+    'projects.card.promoShort1': 'Рекламный шортс 1',
+    'projects.card.promoShort2': 'Рекламный шортс 2',
+    'projects.card.promoShort3': 'Рекламный шортс 3',
     'dates.july2025': 'Июль 2025',
     'dates.december2024': 'Декабрь 2024',
     'dates.march2024': 'Март 2024',
     'dates.june2024': 'Июнь 2024',
     'dates.may2025': 'Май 2025',
     'dates.june2025': 'Июнь 2025',
+    'dates.october2025': 'Октябрь 2025',
+    'dates.september2025': 'Сентябрь 2025',
+    'dates.august2025': 'Август 2025',
     'contact.subtitle': 'Свяжитесь',
     'contact.title': 'Есть проект?<br>Напишите мне!',
     'contact.text': 'Напишите, если я могу помочь! Свяжитесь в соцсетях или отправьте письмо — отвечу как можно быстрее.',
